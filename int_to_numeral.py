@@ -65,7 +65,7 @@ def int_to_numeral(integer):
             else:
                 numeral = parse_hundreds(div[0])
                 numeral += ' mil '
-            if div[1] < 100 and div[1] > 0:
+            if div[1] > 0:
                 numeral += 'e '
             numeral += parse_hundreds(div[1])
         return numeral
@@ -74,6 +74,7 @@ def int_to_numeral(integer):
     if integer < 0:
         integer = abs(integer)
         minus = True
+
     if integer < 100:
         numeral = parse_tens(integer)
     elif integer < 1000:
