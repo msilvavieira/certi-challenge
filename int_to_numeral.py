@@ -59,6 +59,7 @@ def int_to_numeral(integer):
 
     ## ##
     ## Assign each digit to its Brazilian Portuguese value
+    ## in the numerals table
     if integer < 100:
         div = divmod(integer, 10)
         numeral += numerals[1][div[0]]
@@ -81,6 +82,4 @@ def int_to_numeral(integer):
         if div[1]:
             numeral = numeral + ' e ' + int_to_numeral(div[1])
         return numeral
-
-    return numeral
 
