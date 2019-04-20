@@ -1,4 +1,4 @@
-from int_to_numeral import numerals, int_to_numeral
+from int_to_numeral import int_to_numeral
 
 
 
