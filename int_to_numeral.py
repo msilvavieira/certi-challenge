@@ -10,80 +10,74 @@ numerals = (
     ("", "cento", "duzentos", "trezentos", "quatrocentos",
      "quinhentos", "seiscentos", "setecentos", "oitocentos",
      "novecentos",),
-
-    #("mil",),
 )
 
 
 
 
 def int_to_numeral(integer):
+    """
+        The heart of the algorithm is python's native 'divmod' function,
+        which given inputs x and y returns a tuple containing two elements,
+        the quocient and remainder of the division of x/y (both integers):
+            divmod(x, y) == (x // y, x % y).
+
+        The function divmods the input by its closest numerical place value,
+        repeating until we reach the ones place; each resulting quocient
+        corresponds to the index of a given numeral in the numerals tuple.
+
+        The main recursive loop goes like this:
+
+        input = 9999:
+          divmod(9999, 1000) = (9, 999)  # 'nove mil'   |  place value == 1000
+          divmod(999,  100)  = (9,  99)  # 'novecentos' |  place value == 100
+          divmod(99,   10)   = (9,   9)  # 'noventa'    |  place value == 10
+          divmod(9,    1)    = (9,   0)  # 'nove'       |  place value == 1
+
+
+        input = 10000:
+          divmod(10000, 10) = (10, 0)    # pass         |  place value == 1000 *
+
+            * stopped here, since values smaller than 20 return
+              in one step
+    """
 
     numeral = ''
 
-    def parse_tens(integer):
-        numeral = ''
-        if integer < 20:
-            numeral =  numerals[0][integer]
-        else:
-            div = divmod(integer, 10)
-            numeral = numerals[1][div[0]]
-            if div[1] != 0:
-                numeral += ' e '
-                numeral += numerals[0][div[1]]
-        return numeral
-
-    def parse_hundreds(integer):
-        numeral = ''
-        if integer == 0:
-            pass
-        elif integer < 100:
-            numeral = parse_tens(integer)
-        elif integer == 100:
-            numeral = 'cem'
-        elif integer % 100 == 0:
-            numeral = numerals[1][integer / 100]
-        else:
-            div = divmod(integer, 100)
-            numeral = numerals[2][div[0]]
-            if numeral:
-                numeral += ' e '
-            numeral += parse_tens(div[1])
-        return numeral
-
-    def parse_thousands(integer):
-        numeral = ''
-        if integer == 1000:
-            numeral = 'mil'
-        else:
-            div = divmod(integer, 1000)
-            if div[0] == 1:
-                numeral = 'mil '
-            elif div[0] < 20:
-                numeral = parse_tens(div[0])
-                numeral += ' mil '
-            else:
-                numeral = parse_hundreds(div[0])
-                numeral += ' mil '
-            if div[1] > 0:
-                numeral += 'e '
-            numeral += parse_hundreds(div[1])
-        return numeral
-
-    minus = False
     if integer < 0:
         integer = abs(integer)
-        minus = True
+        numeral = 'menos '
 
-    if integer < 100:
-        numeral = parse_tens(integer)
-    elif integer < 1000:
-        numeral = parse_hundreds(integer)
+    if integer < 20:
+        numeral += numerals[0][integer]
+    elif integer <= 100:
+        if integer == 100:
+            numeral += 'cem'
+            return numeral
+        div = divmod(integer, 10)
+        numeral += numerals[1][div[0]]
+        if div[1]:
+            numeral = numeral + ' e ' + int_to_numeral(div[1])
+        return numeral
+    elif integer <= 1000:
+        if integer == 1000:
+            numeral += 'mil'
+            return numeral
+        div = divmod(integer, 100)
+        numeral += numerals[2][div[0]]
+        if div[1]:
+            numeral = numeral + ' e ' + int_to_numeral(div[1])
+        return numeral
     else:
-        numeral = parse_thousands(integer)
+        div = divmod(integer, 1000)
+        if div[0] == 1:
+            numeral += 'mil'
+        else:
+            numeral += int_to_numeral(div[0])
+            numeral += ' mil'
+        if div[1]:
+            numeral = numeral + ' e ' + int_to_numeral(div[1])
+        return numeral
 
-    numeral = numeral.strip()
-    if minus:
-        numeral = 'menos ' + numeral
     return numeral
 
