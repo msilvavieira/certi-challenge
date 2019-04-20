@@ -1,20 +1,3 @@
-numerals = (
-    ("zero", "um", "dois", "três", "quatro", 
-     "cinco", "seis", "sete", "oito", "nove",
-     "dez", "onze", "doze", "treze", "quatorze", 
-     "quinze", "dezesseis", "dezessete", "dezoito", "dezenove",),
-
-    ("", "", "vinte", "trinta", "quarenta", "cinquenta",
-     "sessenta", "setenta", "oitenta", "noventa",),
-
-    ("", "cento", "duzentos", "trezentos", "quatrocentos",
-     "quinhentos", "seiscentos", "setecentos", "oitocentos",
-     "novecentos",),
-)
-
-
-
-
 def int_to_numeral(integer):
     """
         The heart of the algorithm is python's native 'divmod' function,
@@ -42,27 +25,47 @@ def int_to_numeral(integer):
               in one step
     """
 
+
+    numerals = (("zero", "um", "dois", "três", "quatro", 
+                 "cinco", "seis", "sete", "oito", "nove",
+                 "dez", "onze", "doze", "treze", "quatorze", 
+                 "quinze", "dezesseis", "dezessete", "dezoito", "dezenove",),
+
+                ("", "", "vinte", "trinta", "quarenta", "cinquenta",
+                 "sessenta", "setenta", "oitenta", "noventa",),
+
+                ("", "cento", "duzentos", "trezentos", "quatrocentos",
+                 "quinhentos", "seiscentos", "setecentos", "oitocentos",
+                 "novecentos",),)
+
+
     numeral = ''
 
     if integer < 0:
         integer = abs(integer)
         numeral = 'menos '
 
+    ## ##
+    ## Filter out the edge cases first
     if integer < 20:
         numeral += numerals[0][integer]
-    elif integer <= 100:
-        if integer == 100:
-            numeral += 'cem'
-            return numeral
+        return numeral
+    if integer == 100:
+        numeral += 'cem'
+        return numeral
+    if integer == 1000:
+        numeral += 'mil'
+        return numeral
+
+    ## ##
+    ## Assign each digit to its Brazilian Portuguese value
+    if integer < 100:
         div = divmod(integer, 10)
         numeral += numerals[1][div[0]]
         if div[1]:
             numeral = numeral + ' e ' + int_to_numeral(div[1])
         return numeral
-    elif integer <= 1000:
-        if integer == 1000:
-            numeral += 'mil'
-            return numeral
+    elif integer < 1000:
         div = divmod(integer, 100)
         numeral += numerals[2][div[0]]
         if div[1]:
