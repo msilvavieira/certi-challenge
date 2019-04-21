@@ -45,8 +45,8 @@ def int_to_numeral(integer):
         integer = abs(integer)
         numeral = 'menos '
 
-    ## ##
-    ## Filter out the edge cases first
+
+    # Filter out the edge cases first
     if integer < 20:
         numeral += numerals[0][integer]
         return numeral
@@ -57,9 +57,10 @@ def int_to_numeral(integer):
         numeral += 'mil'
         return numeral
 
-    ## ##
-    ## Assign each digit to its Brazilian Portuguese value
-    ## in the numerals table
+
+    # Assign each digit to its Brazilian Portuguese
+    # value in the numerals table, left to right
+    # (i.e. decremental order)
     if integer < 100:
         div = divmod(integer, 10)
         numeral += numerals[1][div[0]]
