@@ -28,9 +28,11 @@ public registry set up with everything included. And I do mean EVERYTHING.
 Run it like so:
 
 ``` bash
-docker run -p 3000:80 85ms/int-por-extenso:challenge 
+docker run -p 3000:80 85ms/int-por-extenso:challenge
 ```
 
+(of course, pass any port of yout choice to the -p argument! Just remember
+that the Dockerfile exposes port 80.)
 
 
 ## What it does
