@@ -23,7 +23,26 @@ python server.py --port=8888
 ```
 
 
-3. Optionally, there's a very special Docker image published in the
+3. Another easy way to run the app is by building up the Docker image,
+which by itself takes care of the above steps. Suppose we're gonna call
+it "tagname":
+
+```bash
+docker build [-t tagname] .
+```
+(do NOT forget the dot, its important!)
+
+
+Done that, just run it. The following example assumes you the reader
+wants to use port 3000, but it could be anything:
+
+``` bash
+docker run -p 3000:80 tagname
+```
+
+
+
+4. Optionally, there's a very special Docker image published in the
 public registry set up with everything included. And I do mean EVERYTHING.
 Run it like so:
 
