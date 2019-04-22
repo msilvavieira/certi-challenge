@@ -2,7 +2,7 @@
 
 ## How to run it
 
-1. First of, set up a Python virtual environment, or at least
+1. First off, set up and activate a Python virtual environment, or at least
 install the requirements:
 
 ``` bash
@@ -14,7 +14,7 @@ pip install -r requirements.txt
 python server.py
 ```
 
-By defaul the server listens to por 3000. To make it listen to
+**By defaul the server listens to port 3000.** To make it listen to
 a different port (say, 8888), pass it on to the --port argument
 like this:
 
@@ -96,3 +96,13 @@ those a status 404 response.
 
 Now, about the "int_to_numeral" algorithm... it must be seen
 to be believed! Get to the code! :)
+
+
+
+## What about the tests?
+
+Just Pytest the deuce out of them!
+
+``` python
+pytest test_int_to_numeral.py
+```
